@@ -39,6 +39,11 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 # data = pd.read_excel(file_path)
 # df = data.copy()
 
+current_month = datetime(2025, 8, 1).strftime("%B")
+report_year = datetime(2025, 8, 1).strftime("%Y")
+report = "Admin"
+mo = 'Aug'
+
 # Define the Google Sheets URL
 sheet_url = "https://docs.google.com/spreadsheets/d/1xZ-OulU-SOfd6jraH2fEvvVdbSXIUOg-RA3PKZHP_GQ/edit?gid=0#gid=0"
 
@@ -61,7 +66,7 @@ else:
 # Authorize and load the sheet
 client = gspread.authorize(creds)
 sheet = client.open_by_url(sheet_url)
-worksheet = sheet.worksheet("August")
+worksheet = sheet.worksheet(f"{current_month}")
 data = pd.DataFrame(worksheet.get_all_records())
 df = data.copy()
 
@@ -76,10 +81,7 @@ color_sequence = px.colors.qualitative.Plotly
 
 # Get the reporting month:
 df = df.sort_values(by='Start Date', ascending=True)
-current_month = datetime(2025, 8, 1).strftime("%B")
-report_year = datetime(2025, 8, 1).strftime("%Y")
-report = "Admin"
-mo = 'Aug'
+
 # -------------------------------------------------
 # print(df.head())
 # print(df[["Date of Activity", "Total travel time (minutes):"]])
@@ -108,7 +110,7 @@ columns =  [
     '# of People Engaged', 
     'Duration (h)',
     'Total Travel Time',
-
+    # ----------------------
     'Email', 
     'Billable', 
     'Start Date',
