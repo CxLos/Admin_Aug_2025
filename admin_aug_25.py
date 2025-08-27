@@ -147,18 +147,16 @@ df.rename(
     columns={
         "Client": "Client",
         "Project": "Project",
+        "Kiosk": "Kiosk",
+        "Description": "Description",
         # --------------------
         "Duration (h)": "Duration",
-        "Total Travel Time": "Travel",
         "# of People Engaged": "Engaged",
         "Group": "Group",
         "Task": "Task",
         "Tags": "Tags",
         "User": "User",
         "Collaborated Entity": "Collab",
-        # --------------------------------
-        "Kiosk": "Kiosk",
-        "Description": "Description",
         # "": "",
     }, 
 inplace=True)
@@ -189,39 +187,39 @@ total_hours=round(total_hours)
 
 # print("Travel Unique before:", df['Travel'].unique().tolist())
 
-df['Travel'] = df['Travel'].fillna('0')
+# df['Travel'] = df['Travel'].fillna('0')
 
-travel_unique =[
-    '', 'None', 
-    '1-30 Minutes', 
-    '31-60 Minutes', 
-    '61-90 Minutes', 
-    '0-30 Minutes'
-]
+# travel_unique =[
+#     '', 'None', 
+#     '1-30 Minutes', 
+#     '31-60 Minutes', 
+#     '61-90 Minutes', 
+#     '0-30 Minutes'
+# ]
 
-df['Travel'] = df['Travel'].fillna('0')
+# df['Travel'] = df['Travel'].fillna('0')
 
-df['Travel'] = (
-    df['Travel']
-        .astype(str)
-        .str.strip()
-            .replace({
-                '0-30 Minutes': '30',
-                '1-30 Minutes': '30',
-                '31-60 Minutes': '60',
-                '61-90 Minutes': '90',
-                '': '0',
-                'None': '0',
-            })
-)
+# df['Travel'] = (
+#     df['Travel']
+#         .astype(str)
+#         .str.strip()
+#             .replace({
+#                 '0-30 Minutes': '30',
+#                 '1-30 Minutes': '30',
+#                 '31-60 Minutes': '60',
+#                 '61-90 Minutes': '90',
+#                 '': '0',
+#                 'None': '0',
+#             })
+# )
 
-df['Travel'] = pd.to_numeric(df['Travel'], errors='coerce')
+# df['Travel'] = pd.to_numeric(df['Travel'], errors='coerce')
 
-# print("Travel Unique After:", df['Travel'].unique().tolist())
+# # print("Travel Unique After:", df['Travel'].unique().tolist())
 
-df_travel = df['Travel'].sum()/60
-df_travel = round(df_travel)
-# print('Total Travel Time:', df_travel)
+# df_travel = df['Travel'].sum()/60
+# df_travel = round(df_travel)
+# # print('Total Travel Time:', df_travel)
 
 # ------------------------- Total Engaged ------------------------------ #
 
@@ -1146,7 +1144,7 @@ html.Div(
                     children=[
                         html.H3(
                             className='rollup-title',
-                            children=[f'{current_month} Travel Hours']
+                            children=[f'Placeholder']
                         ),
                     ]
                 ),
@@ -1158,7 +1156,7 @@ html.Div(
                             children=[
                                 html.H1(
                                 className='rollup-number',
-                                children=[df_travel]
+                                children=['-']
                                 ),
                             ]
                         )
@@ -1212,7 +1210,8 @@ html.Div(
                     children=[
                         dcc.Graph(
                             className='wide-graph',
-                            figure=group_bar
+                            figure=group_bar,
+                            config={'responsive': True}, 
                         )
                     ]
                 ),
@@ -1427,9 +1426,10 @@ html.Div(
 print(f"Serving Flask app '{current_file}'! 🚀")
 
 if __name__ == '__main__':
-    app.run_server(debug=
+    app.run(debug=
                    True)
                 #    False)
+                
 # =================================== Updated Database ================================= #
 
 # updated_path1 = 'data/service_tracker_q4_2024_cleaned.csv'
